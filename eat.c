@@ -510,8 +510,7 @@ void EAT(DFrameNum* df, int* X, int nX, int* Y, int nY, int numStop, VTREE* tree
 	VLIST *leaves = listNew(NEATPrintVTN, NEATNewVTN, NEATDelVTN, NEATCpyVTN);
 	TREEALPHA TAlpha;
 
-	// 1 - Arbol profundo Heuristico
-	printf("1. EATStart\n");
+	// Inicialize tree structure
 	EATStart(df, X, nX, Y, nY, tree, leaves, treeAlphaList);
 	numNoFinalLeaves = leaves->size; // 'leaves' contiene al noda raiz que SÍ es no-final
 
@@ -520,8 +519,6 @@ void EAT(DFrameNum* df, int* X, int nX, int* Y, int nY, int numStop, VTREE* tree
 	TAlpha.alpha = ((TREEALPHA*)(treeAlphaList->first->data))->alpha;
 	TAlpha.errFolders = ((TREEALPHA*)(treeAlphaList->first->data))->errFolders;
 
-	
-	printf("numNoFinalLeaves: %d\n", numNoFinalLeaves);
 	while (numNoFinalLeaves)
 	{
 		// SELECT FATHER .....
@@ -661,13 +658,9 @@ void TreesForRCV(DFrameNum* df, int* X, int nX, int* Y, int nY, int folder, int 
 	for (v = 0; v < folder; v++)
 	{
 		TAiv[v] = listNew(TreeAlphaPrint, TreeAlphaNew, TreeAlphaDel, TreeAlphaCpy);
-		printf("TAIV v=%d (N - numRowsFolder)=%d\n", v, numRowsFolder);
-
 		dfNumPartitionRest(&notLv, df, v, numRowsFolder);
 		
-
 		EAT(&notLv, X, nX, Y, nY, numStop, &Tiv, TAiv[v]);
-		treePrint(&Tiv);
 
 		treeFree(&Tiv);
 	}

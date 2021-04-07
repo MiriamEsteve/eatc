@@ -99,14 +99,16 @@ int main(int argc, char *argv[])
 	printf("Fin EAT....\n=======\n");
 	printf("nRows: %d, nCols: %d, numStop: %d, size: %d, time : %f\n", nRows, nCols, numStop, Tk->tree->size, (double)(t_fin - t_ini) / CLOCKS_PER_SEC);
 	//treePrint(tree);
-    if(CheckEAT(tree))
-        printf("tree OK\n");
+    if(CheckEAT(Tk->tree))
+        printf("treePruned OK\n");
     else
-        printf("tree KK\n");
+        printf("treePruned KK\n");
  	
+
 	dfNumFree(df);
-	listFree(treeAlphaList);
 	treeFree(tree);
+	treeFree(Tk->tree);
+	//listFree(treeAlphaList); //Free in Prunning
 
 	return 0;
 }
