@@ -9,8 +9,6 @@ Estructura de nodo para algoritmo EAT
 //#define INF (1.0/0.0)
 #define DEBUG printf
 
-#include "00lib/vlist.h"
-#include "00lib/data.h"
 #include "00lib/vtree.h"
 
 
