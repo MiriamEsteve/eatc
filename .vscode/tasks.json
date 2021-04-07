@@ -10,11 +10,11 @@
                 "${workspaceFolder}\\programa.exe",
                 "${workspaceFolder}\\main.c",
                 "${workspaceFolder}\\eat.c",
+                "${workspaceFolder}\\00lib\\eatStructure.c",
                 "${workspaceFolder}\\00lib\\distrib.c",
                 "${workspaceFolder}\\00lib\\data.c",
                 "${workspaceFolder}\\00lib\\vtree.c",
-                "${workspaceFolder}\\00lib\\vlist.c",
-                "${workspaceFolder}\\00lib\\eatStructure.c"
+                "${workspaceFolder}\\00lib\\vlist.c"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
