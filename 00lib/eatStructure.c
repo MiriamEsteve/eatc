@@ -4,7 +4,7 @@
 #include<math.h>
 #include<time.h>
 
-#include "00lib/eatStructure.h"
+#include "eatStructure.h"
 
 
 /****************************************************************************************

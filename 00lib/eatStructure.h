@@ -9,7 +9,7 @@ Estructura de nodo para algoritmo EAT
 //#define INF (1.0/0.0)
 #define DEBUG printf
 
-#include "00lib/vtree.h"
+#include "vtree.h"
 
 
 // int NCOLS; // Numero de columnas del fichero de datos
