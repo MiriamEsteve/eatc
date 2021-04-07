@@ -49,7 +49,6 @@ int main(int argc, char *argv[])
 {
 	time_t t;
 	int nCores = 2;
-	int numNoFinalLeaves;
 
 	int nRows = 50;
 	int nCols = 4;
@@ -69,7 +68,6 @@ int main(int argc, char *argv[])
 
 
 	VLIST *treeAlphaList = listNew(TreeAlphaPrint, TreeAlphaNew, TreeAlphaDel, TreeAlphaCpy);
-	VLIST *leaves = listNew(NEATPrintVTN, NEATNewVTN, NEATDelVTN, NEATCpyVTN);
 	VTREE *tree = treeNew(NEATPrint, NEATNew, NEATDel, NEATCpy);
 	TREEALPHA *Tk;
 
@@ -80,17 +78,12 @@ int main(int argc, char *argv[])
 	//df = MakeDF_X2Y2(nRows, border, noise);
 	//dfNumPrint(df);// getchar();
 
-	// 1 - Arbol profundo Heuristico
-	printf("1- EATInicialize\n");
-	EATStart(df, X, nX, Y, nY, tree, leaves, treeAlphaList);
-	numNoFinalLeaves = leaves->size; // 'leaves' contiene al noda raiz que SÍ es no-final
-
-	// 2 - Llamar a EAT
-	printf("2- deep_EAT\n");
+	// 1 - Llamar a EAT
+	printf("1- deep_EAT\n");
 	printf("nRows: %d, nCols: %d, numStop: %d\n", nRows, nCols, numStop);
 	
 	t_ini = clock();
-	EAT(df, X, nX, Y, nY, numStop, tree, leaves, numNoFinalLeaves, treeAlphaList);
+	EAT(df, X, nX, Y, nY, numStop, tree, treeAlphaList);
 	t_fin = clock();
 	printf("Fin deep_EAT....\n=======\n");
 	printf("nRows: %d, nCols: %d, numStop: %d, size: %d, time : %f\n", nRows, nCols, numStop, tree->size, (double)(t_fin - t_ini) / CLOCKS_PER_SEC);
@@ -101,7 +94,7 @@ int main(int argc, char *argv[])
         printf("tree KK\n");
 
 	t_ini = clock();
-	Tk = EATPruning(leaves, numNoFinalLeaves,treeAlphaList, df, X, nX, Y, nY, folder, numStop);
+	Tk = EATPruning(treeAlphaList, df, X, nX, Y, nY, folder, numStop);
 	t_fin = clock();
 	printf("Fin EAT....\n=======\n");
 	printf("nRows: %d, nCols: %d, numStop: %d, size: %d, time : %f\n", nRows, nCols, numStop, Tk->tree->size, (double)(t_fin - t_ini) / CLOCKS_PER_SEC);
@@ -113,7 +106,6 @@ int main(int argc, char *argv[])
  	
 	dfNumFree(df);
 	listFree(treeAlphaList);
-	listFree(leaves);
 	treeFree(tree);
 
 	return 0;

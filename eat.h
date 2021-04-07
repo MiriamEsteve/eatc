@@ -41,7 +41,7 @@ double Alpha(VTREE *tree);
 VTN* SelectFather(VLIST *leaves, int num);
 void EATStart(DFrameNum *df, int *X, int nX, int *Y, int nY, VTREE *tree, VLIST *leaves, VLIST *treeAlphaList);
 
-void EAT(DFrameNum *df, int *X, int nX, int *Y, int nY, int numStop, VTREE *tree, VLIST *leaves, int numNoFinalLeaves, VLIST *treeAlphaList);
+void EAT(DFrameNum *df, int *X, int nX, int *Y, int nY, int numStop, VTREE *tree, VLIST *treeAlphaList);
 
 int CheckEAT(VTREE *tree);
 
@@ -50,11 +50,11 @@ int CheckEAT(VTREE *tree);
  ################################## EAT Prunning #######################################
 **************************************************************************************************************************/
 double* Predictor(VTREE *tree, double *reg);
-void TreesForRCV(DFrameNum *df, int *X, int nX, int *Y, int nY, int folder, int numStop, VLIST *leaves, int numNoFinalLeaves, VLIST **TAiv);
+void TreesForRCV(DFrameNum *df, int *X, int nX, int *Y, int nY, int folder, int numStop, VLIST **TAiv);
 double RCV(DFrameNum *Lv, int *Y, int nY, double alphaIprim, int folder, VLIST **TAiv, TREEALPHA **BestTivs);
 
 // *****************************  Pruning EAT *********************************
-TREEALPHA* EATPruning(VLIST *leaves, int numNoFinalLeaves, VLIST *treeAlphaList, DFrameNum *df, int *X, int nX, int *Y, int nY, int folder, int numStop);
+TREEALPHA* EATPruning(VLIST *treeAlphaList, DFrameNum *df, int *X, int nX, int *Y, int nY, int folder, int numStop);
 
 
 

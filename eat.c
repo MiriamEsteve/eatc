@@ -500,18 +500,28 @@ int CheckLeaves(VLIST* leaves, int numStop)
 	return numNoFinalLeaves;
 }
 
-void EAT(DFrameNum* df, int* X, int nX, int* Y, int nY, int numStop, VTREE* tree, VLIST* leaves, int numNoFinalLeaves, VLIST* treeAlphaList)
+void EAT(DFrameNum* df, int* X, int nX, int* Y, int nY, int numStop, VTREE* tree, VLIST* treeAlphaList)
 {
+	int numNoFinalLeaves = 0;
 	NEAT* TL, * TR;
 	VTN* t;
 	NEAT* tData;
 
+	VLIST *leaves = listNew(NEATPrintVTN, NEATNewVTN, NEATDelVTN, NEATCpyVTN);
 	TREEALPHA TAlpha;
+
+	// 1 - Arbol profundo Heuristico
+	printf("1. EATStart\n");
+	EATStart(df, X, nX, Y, nY, tree, leaves, treeAlphaList);
+	numNoFinalLeaves = leaves->size; // 'leaves' contiene al noda raiz que SÍ es no-final
+
 	TAlpha.tree = tree;
 	TAlpha.score = INFINITY;
 	TAlpha.alpha = ((TREEALPHA*)(treeAlphaList->first->data))->alpha;
 	TAlpha.errFolders = ((TREEALPHA*)(treeAlphaList->first->data))->errFolders;
 
+	
+	printf("numNoFinalLeaves: %d\n", numNoFinalLeaves);
 	while (numNoFinalLeaves)
 	{
 		// SELECT FATHER .....
@@ -638,26 +648,28 @@ double* Predictor(VTREE* tree, double* reg)
 	return ((NEAT*)ti->data)->y;
 }
 
-void TreesForRCV(DFrameNum* df, int* X, int nX, int* Y, int nY, int folder, int numStop, VLIST *leaves, int numNoFinalLeaves, VLIST** TAiv)
+void TreesForRCV(DFrameNum* df, int* X, int nX, int* Y, int nY, int folder, int numStop, VLIST** TAiv)
 {
 	int v, N = df->nRows;
 	int numRowsFolder = N / folder;
 	DFrameNum notLv; // datos para Trainig (sub 'v')
 
-	//VTREE Tiv;
-	//treeIniAll(&Tiv, NEATPrint, NEATNew, NEATDel, NEATCpy);
+	VTREE Tiv;
+	treeIniAll(&Tiv, NEATPrint, NEATNew, NEATDel, NEATCpy);
 
 	dfNumSetPartition(&notLv, df, (N - numRowsFolder));
 	for (v = 0; v < folder; v++)
 	{
-		treeIniAll(&TAiv[v], NEATPrint, NEATNew, NEATDel, NEATCpy);
+		TAiv[v] = listNew(TreeAlphaPrint, TreeAlphaNew, TreeAlphaDel, TreeAlphaCpy);
+		printf("TAIV v=%d (N - numRowsFolder)=%d\n", v, numRowsFolder);
 
 		dfNumPartitionRest(&notLv, df, v, numRowsFolder);
+		
 
-		//EAT(notLv, X, nX, Y, nY, numStop, TAiv[v], leaves, numNoFinalLeaves, treeAlphaList); //random indica
+		EAT(&notLv, X, nX, Y, nY, numStop, &Tiv, TAiv[v]);
+		treePrint(&Tiv);
 
-		//EAT(&notLv, X, nX, Y, nY, numStop, 0, &TAiv[v]);
-		//treeFree(&Tiv);
+		treeFree(&Tiv);
 	}
 	free(notLv.data);
 }
@@ -696,7 +708,7 @@ double RCV(DFrameNum* Lv, int* Y, int nY, double alphaIprim, int folder,
 }
 
 // *****************************  Pruning EAT *********************************
-TREEALPHA* EATPruning(VLIST *leaves, int numNoFinalLeaves, VLIST* treeAlphaList, DFrameNum* df,
+TREEALPHA* EATPruning(VLIST* treeAlphaList, DFrameNum* df,
 	int* X, int nX, int* Y, int nY, int folder, int numStop)
 {
 	int v, N = df->nRows;
@@ -723,7 +735,7 @@ TREEALPHA* EATPruning(VLIST *leaves, int numNoFinalLeaves, VLIST* treeAlphaList,
 	if (TAiv == NULL || BestTivs == NULL || BestTivsAux == NULL)
 		EATErr("TAiv / BestTivs / BestTivsAux is NULL");
 
-	TreesForRCV(df, X, nX, Y, nY, folder, numStop, leaves, numNoFinalLeaves, TAiv);
+	TreesForRCV(df, X, nX, Y, nY, folder, numStop, TAiv);
 
 	listRefMoveFirst(treeAlphaList, &iter);
 	Tk = ta1 = listRefMoveNext(treeAlphaList, &iter);
