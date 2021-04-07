@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "compilar",
+            "command": "C:\\MinGW\\bin\\gcc.exe",
+            "args": [
+                "-o",
+                "${workspaceFolder}\\programa.exe",
+                "${workspaceFolder}\\main.c",
+                "${workspaceFolder}\\eat.c",
+                "${workspaceFolder}\\00lib\\distrib.c",
+                "${workspaceFolder}\\00lib\\data.c",
+                "${workspaceFolder}\\00lib\\vtree.c",
+                "${workspaceFolder}\\00lib\\vlist.c"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "ejecutar",
+            "command": "${workspaceFolder}\\programa.exe",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "dependsOn": [
+                "compilar"
+            ]
+        }
+    ]
+}
