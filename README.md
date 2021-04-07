@@ -1,1 +1,1 @@
-<h1>Boosting of Efficiency Analysis Trees (EATBoostC)</h1>
+<h1>Efficiency Analysis Trees (EAT) in C programming</h1>
