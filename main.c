@@ -10,6 +10,7 @@
 #include "00lib/distrib.h"
 #include "00lib/data.h"
 #include "00lib/vtree.h"
+#include "00lib/eatStructure.h"
 #include "eat.h"
 
 void Datos(DFrameNum *df, int semilla)
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
 	printf("nRows: %d, nCols: %d, numStop: %d\n", nRows, nCols, numStop);
 	
 	t_ini = clock();
-	EAT(df, X, nX, Y, nY, numStop, 0, tree, leaves, numNoFinalLeaves, treeAlphaList);
+	EAT(df, X, nX, Y, nY, numStop, tree, leaves, numNoFinalLeaves, treeAlphaList);
 	t_fin = clock();
 	printf("Fin deep_EAT....\n=======\n");
 	printf("nRows: %d, nCols: %d, numStop: %d, size: %d, time : %f\n", nRows, nCols, numStop, tree->size, (double)(t_fin - t_ini) / CLOCKS_PER_SEC);
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
         printf("tree KK\n");
 
 	t_ini = clock();
-	Tk = EATPruning(treeAlphaList, df, X, nX, Y, nY, folder, numStop);
+	Tk = EATPruning(leaves, numNoFinalLeaves,treeAlphaList, df, X, nX, Y, nY, folder, numStop);
 	t_fin = clock();
 	printf("Fin EAT....\n=======\n");
 	printf("nRows: %d, nCols: %d, numStop: %d, size: %d, time : %f\n", nRows, nCols, numStop, Tk->tree->size, (double)(t_fin - t_ini) / CLOCKS_PER_SEC);

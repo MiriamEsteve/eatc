@@ -13,7 +13,8 @@
                 "${workspaceFolder}\\00lib\\distrib.c",
                 "${workspaceFolder}\\00lib\\data.c",
                 "${workspaceFolder}\\00lib\\vtree.c",
-                "${workspaceFolder}\\00lib\\vlist.c"
+                "${workspaceFolder}\\00lib\\vlist.c",
+                "${workspaceFolder}\\00lib\\eatStructure.c"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
