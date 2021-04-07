@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	//dfNumPrint(df);// getchar();
 
 	// 1 - Arbol profundo Heuristico
-	printf("1- EATStart\n");
+	printf("1- EATInicialize\n");
 	EATStart(df, X, nX, Y, nY, tree, leaves, treeAlphaList);
 	numNoFinalLeaves = leaves->size; // 'leaves' contiene al noda raiz que SÍ es no-final
 
